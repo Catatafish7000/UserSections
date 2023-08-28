@@ -11,7 +11,7 @@ func (h *Handler) NewSection(w http.ResponseWriter, r *http.Request) {
 	err := h.Repo.CreateSection(sectionName)
 	var resp []byte
 	if err != nil {
-		resp, _ = json.Marshal(err)
+		jsonError(w, err.Error(), http.StatusBadRequest)
 	} else {
 		resp, _ = json.Marshal(sectionName)
 	}

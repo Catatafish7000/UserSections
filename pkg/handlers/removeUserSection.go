@@ -14,7 +14,7 @@ func (h *Handler) RemoveUserSection(w http.ResponseWriter, r *http.Request) {
 	err := h.Repo.RemoveSection(id, sectionName)
 	var resp []byte
 	if err != nil {
-		resp, _ = json.Marshal(err)
+		jsonError(w, err.Error(), http.StatusInternalServerError)
 	} else {
 		resp, _ = json.Marshal(sectionName)
 	}
