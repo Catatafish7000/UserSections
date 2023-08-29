@@ -22,5 +22,9 @@ func (h *Handler) RemoveUserSection(w http.ResponseWriter, r *http.Request) {
 			"msg":     "section has been unassigned from user",
 		})
 	}
+	err = h.Repo.DeleteHistory(id, sectionName)
+	if err != nil {
+		jsonError(w, err.Error()+" failed to update history", http.StatusInternalServerError)
+	}
 	w.Write(resp)
 }

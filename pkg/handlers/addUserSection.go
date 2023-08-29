@@ -48,8 +48,17 @@ func (h *Handler) AddUserSection(w http.ResponseWriter, r *http.Request) {
 					"section": sect,
 					"msg":     "section has been assigned to user",
 				})
+				w.Write(resp)
 			}
-			w.Write(resp)
+			if err := h.Repo.AddHistory(id, sect); err != nil && !strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+				jsonError(w, err.Error(), 500)
+			} else if err != nil && strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+				resp, _ = json.Marshal(map[string]string{
+					"msg": "history has been updated",
+				})
+				w.Write(resp)
+			}
+
 		}
 	}
 }

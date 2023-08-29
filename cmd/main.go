@@ -26,6 +26,7 @@ func main() {
 	r.HandleFunc("/add/{user}/{ttl}", handler.AddUserSection).Methods(http.MethodPost)
 	r.HandleFunc("/remove/{user}/{section}", handler.RemoveUserSection).Methods(http.MethodPost)
 	r.HandleFunc("/show/{user}", handler.ShowUserSection).Methods(http.MethodGet)
+	r.HandleFunc("/history/{year}/{month}", handler.History).Methods(http.MethodGet)
 	mux := middleware.Panic(r)
 	port := ":8080"
 	log.Println("Запуск сервера на localhost" + port)

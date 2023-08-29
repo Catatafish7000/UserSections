@@ -8,4 +8,7 @@ type Repo interface {
 	ShowSections(userID int) ([]byte, error)
 	Clear()
 	GetSectionList() ([]byte, error)
+	ShowHistory(year int, month int) ([]byte, error)
+	AddHistory(userID int, sectionName string) error
+	DeleteHistory(userID int, sectionName string) error
 }
