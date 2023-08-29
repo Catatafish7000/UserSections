@@ -10,7 +10,8 @@ CREATE TABLE Sections
 );
 CREATE table List
 (
-    section text unique
+    section text unique,
+    percentage int
 );
 -- +goose StatementEnd
 
