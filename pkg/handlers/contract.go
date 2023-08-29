@@ -11,4 +11,5 @@ type Repo interface {
 	ShowHistory(year int, month int) ([]byte, error)
 	AddHistory(userID int, sectionName string) error
 	DeleteHistory(userID int, sectionName string) error
+	CheckExistence(userID int, sectionName string) error
 }

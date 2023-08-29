@@ -15,6 +15,11 @@ func (h *Handler) RemoveUserSection(w http.ResponseWriter, r *http.Request) {
 		jsonError(w, errId.Error(), 400)
 		return
 	}
+	errExist := h.Repo.CheckExistence(id, sectionName)
+	if errExist != nil {
+		jsonError(w, "no such assignment", 400)
+		return
+	}
 	err := h.Repo.RemoveSection(id, sectionName)
 	var resp []byte
 	if err != nil {
