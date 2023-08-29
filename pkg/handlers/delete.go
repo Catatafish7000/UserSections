@@ -13,7 +13,10 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		jsonError(w, err.Error(), http.StatusInternalServerError)
 	} else {
-		resp, _ = json.Marshal(sectionName)
+		resp, _ = json.Marshal(map[string]string{
+			"section": sectionName,
+			"msg":     "section has been deleted",
+		})
 	}
 	w.Write(resp)
 }

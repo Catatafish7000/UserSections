@@ -16,7 +16,11 @@ func (h *Handler) RemoveUserSection(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		jsonError(w, err.Error(), http.StatusInternalServerError)
 	} else {
-		resp, _ = json.Marshal(sectionName)
+		resp, _ = json.Marshal(map[string]string{
+			"userID":  userID,
+			"section": sectionName,
+			"msg":     "section has been unassigned from user",
+		})
 	}
 	w.Write(resp)
 }

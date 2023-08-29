@@ -13,7 +13,10 @@ func (h *Handler) NewSection(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		jsonError(w, err.Error(), http.StatusBadRequest)
 	} else {
-		resp, _ = json.Marshal(sectionName)
+		resp, _ = json.Marshal(map[string]string{
+			"section": sectionName,
+			"msg":     "section has been created",
+		})
 	}
 	w.Write(resp)
 }
