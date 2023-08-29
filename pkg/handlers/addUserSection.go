@@ -13,7 +13,11 @@ import (
 func (h *Handler) AddUserSection(w http.ResponseWriter, r *http.Request) {
 	userID := mux.Vars(r)["user"]
 	ttlS := mux.Vars(r)["ttl"]
-	ttl, _ := strconv.Atoi(ttlS)
+	ttl, errTtl := strconv.Atoi(ttlS)
+	if errTtl != nil {
+		jsonError(w, errTtl.Error(), 400)
+		return
+	}
 	id, _ := strconv.Atoi(userID)
 	list, err := h.Repo.GetSectionList()
 	if err != nil {

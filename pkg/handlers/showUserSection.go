@@ -8,7 +8,11 @@ import (
 
 func (h *Handler) ShowUserSection(w http.ResponseWriter, r *http.Request) {
 	userID := mux.Vars(r)["user"]
-	id, _ := strconv.Atoi(userID)
+	id, errId := strconv.Atoi(userID)
+	if errId != nil {
+		jsonError(w, errId.Error(), 400)
+		return
+	}
 	resp, err := h.Repo.ShowSections(id)
 	if err != nil {
 		jsonError(w, err.Error(), 0)

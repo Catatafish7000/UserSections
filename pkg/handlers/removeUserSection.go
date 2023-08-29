@@ -10,7 +10,11 @@ import (
 func (h *Handler) RemoveUserSection(w http.ResponseWriter, r *http.Request) {
 	userID := mux.Vars(r)["user"]
 	sectionName := mux.Vars(r)["section"]
-	id, _ := strconv.Atoi(userID)
+	id, errId := strconv.Atoi(userID)
+	if errId != nil {
+		jsonError(w, errId.Error(), 400)
+		return
+	}
 	err := h.Repo.RemoveSection(id, sectionName)
 	var resp []byte
 	if err != nil {
