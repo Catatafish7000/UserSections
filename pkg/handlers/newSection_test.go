@@ -2,6 +2,7 @@ package handlers_test
 
 import (
 	"Segments/pkg/handlers"
+	"errors"
 	"fmt"
 	"github.com/golang/mock/gomock"
 	"github.com/gorilla/mux"
@@ -11,38 +12,37 @@ import (
 	"testing"
 )
 
-func TestHandler_AddUserSection(t *testing.T) {
+func TestHandler_NewSection(t *testing.T) {
 	t.Parallel()
 
 	testCases := []struct {
-		name     string
-		userID   string
-		ttl      string
-		prepare  func(m *Mockrepo)
-		expected func(t assert.TestingT, w *httptest.ResponseRecorder)
+		name        string
+		sectionName string
+		percentage  string
+		prepare     func(m *Mockrepo)
+		expected    func(t assert.TestingT, w *httptest.ResponseRecorder)
 	}{
 		{
-			name:   "Success",
-			userID: "1001",
-			ttl:    "10",
+			name:        "Success",
+			sectionName: "real",
+			percentage:  "100",
 			prepare: func(m *Mockrepo) {
-				m.EXPECT().GetSectionList().Return([]byte(""), nil)
+				m.EXPECT().CreateSection(gomock.Any(), gomock.Any()).Return(nil)
 			},
 			expected: func(t assert.TestingT, w *httptest.ResponseRecorder) {
-				assert.Equal(t, 500, w.Code)
+				assert.Equal(t, http.StatusOK, w.Code)
 				//assert.Equal(t, gomock.Any(), w.Result())
 			},
 		},
 		{
-			name:   "Failed",
-			userID: "1002",
-			ttl:    "1",
+			name:        "Failed",
+			sectionName: "real",
+			percentage:  "100",
 			prepare: func(m *Mockrepo) {
-
-				m.EXPECT().GetSectionList().Return([]byte("afasras"), nil)
+				m.EXPECT().CreateSection(gomock.Any(), gomock.Any()).Return(errors.New("DB failed"))
 			},
 			expected: func(t assert.TestingT, w *httptest.ResponseRecorder) {
-				assert.Equal(t, 500, w.Code)
+				assert.Equal(t, 400, w.Code)
 				//assert.Equal(t, gomock.Any(), w.Result())
 			},
 		},
@@ -60,22 +60,22 @@ func TestHandler_AddUserSection(t *testing.T) {
 			handler := handlers.NewHandler(repoMock)
 			tc.prepare(repoMock)
 
-			r, err := createAddRequest(tc.userID, tc.ttl)
+			r, err := createNewRequest(tc.sectionName, tc.percentage)
 			assert.NoError(t, err)
 
 			w := httptest.NewRecorder()
 
-			handler.AddUserSection(w, r)
+			handler.NewSection(w, r)
 			tc.expected(t, w)
 		})
 	}
 }
 
-func createAddRequest(paramId string, paramTtl string) (*http.Request, error) {
-	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("http://localhost/add/%s/%s", paramId, paramTtl), nil)
+func createNewRequest(section string, percentage string) (*http.Request, error) {
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("http://localhost:8080/new/%s/%s", section, percentage), nil)
 	if err != nil {
 		return nil, err
 	}
-	req = mux.SetURLVars(req, map[string]string{"user": paramId, "ttl": paramTtl})
+	req = mux.SetURLVars(req, map[string]string{"section": section, "percentage": percentage})
 	return req, nil
 }

@@ -3,11 +3,12 @@ package handlers_test
 import (
 	"Segments/pkg/handlers"
 	"errors"
+	"fmt"
 	"github.com/golang/mock/gomock"
+	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"testing"
 )
 
@@ -68,11 +69,10 @@ func TestHandler_Delete(t *testing.T) {
 }
 
 func createDelRequest(param string) (*http.Request, error) {
-	params := make(url.Values)
-	params["section"] = []string{param}
-	req, err := http.NewRequest(http.MethodPost, "fake_url"+params.Encode(), nil)
+	req, err := http.NewRequest(http.MethodPost, fmt.Sprintf("http://localhost/delete/%s", param), nil)
 	if err != nil {
 		return nil, err
 	}
+	req = mux.SetURLVars(req, map[string]string{"section": param})
 	return req, nil
 }

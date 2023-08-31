@@ -4,7 +4,6 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"io"
 	"net/http"
 	"os"
 	"strconv"
@@ -63,17 +62,8 @@ func (h *Handler) DownloadHistory(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	fi, err := os.Stat(filePath)
-	if err != nil {
-		http.Error(w, "Unable to retrieve file information", http.StatusInternalServerError)
-		return
-	}
+
 	w.Header().Set("Content-Type", "text/csv")
 	w.Header().Set("Content-Disposition", "attachment; filename="+file.Name())
-	w.Header().Set("Content-Length", strconv.Itoa(int(fi.Size())))
-	_, err = io.Copy(w, file)
-	if err != nil {
-		jsonError(w, "Unable to send file", http.StatusInternalServerError)
-		return
-	}
+	http.ServeFile(w, r, filePath)
 }

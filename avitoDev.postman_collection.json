@@ -231,6 +231,27 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "download",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/history/download/2023/8",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"history",
+						"download",
+						"2023",
+						"8"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
