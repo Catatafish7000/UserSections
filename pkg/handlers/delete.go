@@ -11,7 +11,7 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 	err := h.repo.DeleteSection(sectionName)
 	var resp []byte
 	if err != nil {
-		JsonError(w, err.Error(), http.StatusInternalServerError)
+		jsonError(w, err.Error(), http.StatusInternalServerError)
 	} else {
 		resp, _ = json.Marshal(map[string]string{
 			"section": sectionName,

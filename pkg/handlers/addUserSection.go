@@ -15,32 +15,32 @@ func (h *Handler) AddUserSection(w http.ResponseWriter, r *http.Request) {
 	ttlS := mux.Vars(r)["ttl"]
 	ttl, errTtl := strconv.Atoi(ttlS)
 	if errTtl != nil {
-		JsonError(w, errTtl.Error(), 400)
+		jsonError(w, errTtl.Error(), 400)
 		return
 	}
 	id, _ := strconv.Atoi(userID)
 	list, err := h.repo.GetSectionList()
 	if err != nil {
-		JsonError(w, err.Error(), 400)
+		jsonError(w, err.Error(), 400)
 		return
 	}
 	sects := make(map[string]string)
 	if err := json.Unmarshal(list, &sects); err != nil {
-		JsonError(w, err.Error(), 500)
+		jsonError(w, err.Error(), 500)
 	}
 	rand.Seed(time.Now().UTC().UnixNano())
 	for sect, percentage := range sects {
 		var resp []byte
 		perc, err := strconv.Atoi(percentage)
 		if err != nil {
-			JsonError(w, err.Error(), 500)
+			jsonError(w, err.Error(), 500)
 			continue
 		}
 		throw := rand.Intn(100)
 		if throw <= perc {
 			err := h.repo.AddSection(id, sect, ttl)
 			if err != nil && !strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-				JsonError(w, err.Error(), http.StatusInternalServerError)
+				jsonError(w, err.Error(), http.StatusInternalServerError)
 			}
 			if err != nil && strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 				resp, _ = json.Marshal(map[string]string{
@@ -58,7 +58,7 @@ func (h *Handler) AddUserSection(w http.ResponseWriter, r *http.Request) {
 				w.Write(resp)
 			}
 			if err := h.repo.AddHistory(id, sect); err != nil && !strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-				JsonError(w, err.Error(), 500)
+				jsonError(w, err.Error(), 500)
 			} else if err != nil && strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 				resp, _ = json.Marshal(map[string]string{
 					"msg": "history has been updated",

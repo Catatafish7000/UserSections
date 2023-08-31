@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func JsonError(w http.ResponseWriter, msg string, status int) {
+func jsonError(w http.ResponseWriter, msg string, status int) {
 	resp, _ := json.Marshal(map[string]string{
 		"message": msg,
 	})

@@ -1,3 +1,4 @@
+//go:generate mockgen -source ${GOFILE} -destination mocks_test.go -package ${GOPACKAGE}_test
 package handlers
 
 type repo interface {
@@ -6,7 +7,6 @@ type repo interface {
 	AddSection(userID int, sectionName string, ttl int) error
 	RemoveSection(userID int, sectionName string) error
 	ShowSections(userID int) ([]byte, error)
-	Clear()
 	GetSectionList() ([]byte, error)
 	ShowHistory(year int, month int) ([]byte, error)
 	AddHistory(userID int, sectionName string) error
