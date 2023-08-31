@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-type Info struct {
+type info struct {
 	CreatedAt string
 	DeletedAt string
 }
 
 func (r *repo) ShowHistory(year int, month int) ([]byte, error) {
-	resp := make(map[string]Info, 0)
+	resp := make(map[string]info, 0)
 	rows, err := r.DB.Query("select * from history where date_part ('year', created_at)=$1 and date_part('month',created_at)=$2 or date_part('year',deleted_at)=$3 and date_part('month',deleted_at)=$4", year, month, year, month)
 	if err != nil {
 		return nil, err
@@ -24,7 +24,7 @@ func (r *repo) ShowHistory(year int, month int) ([]byte, error) {
 		} else if err != nil {
 			return nil, err
 		}
-		resp[id+" assignment to "+section] = Info{createdAt, deletedAt}
+		resp[id+" assignment to "+section] = info{createdAt, deletedAt}
 	}
 	ans, err1 := json.Marshal(resp)
 	return ans, err1
