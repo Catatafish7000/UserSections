@@ -1,5 +1,7 @@
 Инициализация базы данных и создание необходимых таблиц:
-docker-compose up    
+
+docker-compose up  
+
 goose -dir migrations postgres "host=127.0.0.1 port=5432  user=kirill password=avito sslmode=disable dbname=db" up
 
 Для тестирования я накидал несколько url-ов в файл avitoDev.postman_collection.json, его нужно импортировать в Postman.
