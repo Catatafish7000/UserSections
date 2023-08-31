@@ -1,9 +1,9 @@
 package handlers
 
 type Handler struct {
-	Repo Repo
+	repo repo
 }
 
-func NewHandler(repo Repo) *Handler {
-	return &Handler{Repo: repo}
+func NewHandler(repo repo) *Handler {
+	return &Handler{repo: repo}
 }

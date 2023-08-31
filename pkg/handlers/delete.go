@@ -8,10 +8,10 @@ import (
 
 func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 	sectionName := mux.Vars(r)["section"]
-	err := h.Repo.DeleteSection(sectionName)
+	err := h.repo.DeleteSection(sectionName)
 	var resp []byte
 	if err != nil {
-		jsonError(w, err.Error(), http.StatusInternalServerError)
+		JsonError(w, err.Error(), http.StatusInternalServerError)
 	} else {
 		resp, _ = json.Marshal(map[string]string{
 			"section": sectionName,

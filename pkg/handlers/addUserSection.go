@@ -15,38 +15,41 @@ func (h *Handler) AddUserSection(w http.ResponseWriter, r *http.Request) {
 	ttlS := mux.Vars(r)["ttl"]
 	ttl, errTtl := strconv.Atoi(ttlS)
 	if errTtl != nil {
-		jsonError(w, errTtl.Error(), 400)
+		JsonError(w, errTtl.Error(), 400)
 		return
 	}
 	id, _ := strconv.Atoi(userID)
-	list, err := h.Repo.GetSectionList()
+	list, err := h.repo.GetSectionList()
 	if err != nil {
-		jsonError(w, err.Error(), 400)
+		JsonError(w, err.Error(), 400)
 		return
 	}
 	sects := make(map[string]string)
 	if err := json.Unmarshal(list, &sects); err != nil {
-		jsonError(w, err.Error(), 500)
+		JsonError(w, err.Error(), 500)
 	}
 	rand.Seed(time.Now().UTC().UnixNano())
 	for sect, percentage := range sects {
 		var resp []byte
 		perc, err := strconv.Atoi(percentage)
 		if err != nil {
-			jsonError(w, err.Error(), 500)
+			JsonError(w, err.Error(), 500)
 			continue
 		}
 		throw := rand.Intn(100)
 		if throw <= perc {
-			if err := h.Repo.AddSection(id, sect, ttl); err != nil && !strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-				jsonError(w, err.Error(), http.StatusInternalServerError)
-			} else if err != nil && strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+			err := h.repo.AddSection(id, sect, ttl)
+			if err != nil && !strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+				JsonError(w, err.Error(), http.StatusInternalServerError)
+			}
+			if err != nil && strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 				resp, _ = json.Marshal(map[string]string{
 					"userID":  userID,
 					"section": sect,
 					"msg":     "time of section assignment has been updated",
 				})
-			} else {
+			}
+			if err == nil {
 				resp, _ = json.Marshal(map[string]string{
 					"userID":  userID,
 					"section": sect,
@@ -54,8 +57,8 @@ func (h *Handler) AddUserSection(w http.ResponseWriter, r *http.Request) {
 				})
 				w.Write(resp)
 			}
-			if err := h.Repo.AddHistory(id, sect); err != nil && !strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
-				jsonError(w, err.Error(), 500)
+			if err := h.repo.AddHistory(id, sect); err != nil && !strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+				JsonError(w, err.Error(), 500)
 			} else if err != nil && strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 				resp, _ = json.Marshal(map[string]string{
 					"msg": "history has been updated",

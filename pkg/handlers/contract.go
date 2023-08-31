@@ -1,6 +1,6 @@
 package handlers
 
-type Repo interface {
+type repo interface {
 	CreateSection(sectionName string, percentage int) error
 	DeleteSection(sectionName string) error
 	AddSection(userID int, sectionName string, ttl int) error

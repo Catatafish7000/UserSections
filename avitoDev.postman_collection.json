@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "770b8dd0-ca6e-47cf-95da-d64eab8f3d5b",
+		"name": "avitoDev",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29388220"
+	},
+	"item": [
+		{
+			"name": "new",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/new/AVITO_VOICE_MESSAGES/100",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"new",
+						"AVITO_VOICE_MESSAGES",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/new/AVITO_PERFORMANCE_VAS/50",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"new",
+						"AVITO_PERFORMANCE_VAS",
+						"50"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/new/AVITO_DISCOUNT_30/0",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"new",
+						"AVITO_DISCOUNT_30",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/new/AVITO_DISCOUNT_50/100",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"new",
+						"AVITO_DISCOUNT_50",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/add/1001/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"add",
+						"1001",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/add/1002/10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"add",
+						"1002",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/show/1001",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"show",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/remove/1001/AVITO_DISCOUNT_50",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"remove",
+						"1001",
+						"AVITO_DISCOUNT_50"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove1",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/remove/1001/AVITO_DISCOUNT_50",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"remove",
+						"1001",
+						"AVITO_DISCOUNT_50"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "history8",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "hitory9",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/history/2023/9",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"history",
+						"2023",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/delete/AVITO_DISCOUNT_50",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delete",
+						"AVITO_DISCOUNT_50"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
